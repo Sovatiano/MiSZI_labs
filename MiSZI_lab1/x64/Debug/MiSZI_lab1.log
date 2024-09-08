@@ -1,0 +1,6 @@
+﻿  MiSZI_lab1.cpp
+D:\cpp_projects\MiSZI_lab1\MiSZI_lab1.cpp(15,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\cpp_projects\MiSZI_lab1\MiSZI_lab1.cpp(16,20): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\cpp_projects\MiSZI_lab1\MiSZI_lab1.cpp(28,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\cpp_projects\MiSZI_lab1\MiSZI_lab1.cpp(40,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  MiSZI_lab1.vcxproj -> D:\cpp_projects\MiSZI_lab1\x64\Debug\MiSZI_lab1.exe
