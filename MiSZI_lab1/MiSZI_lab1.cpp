@@ -28,7 +28,7 @@ string Encrypt(string text, string key) {
     int text_length = text.size();
     
     for (int ind = 0; ind < text_length; ind++) {
-        encrypted_text.push_back((text[ind] + key[ind]) % 255);
+        encrypted_text.push_back((text[ind] + key[ind]) % 256);
     }
 
     return encrypted_text;
@@ -40,7 +40,7 @@ string Decrypt(string text, string key) {
     int text_length = text.size();
 
     for (int ind = 0; ind < text_length; ind++) {
-        decrypted_text.push_back((text[ind] - key[ind] + 255) % 255);
+        decrypted_text.push_back((text[ind] - key[ind] + 256) % 256);
     }
 
     return decrypted_text;
@@ -89,7 +89,6 @@ int main() {
                 getline(cin, key);
                 key = GenerateKey(text, key);
                 string encrypted_text = Encrypt(text, key);
-                cout << encrypted_text << endl;
 
                 string output_file_name;
                 cout << "Введите название файла для сохранения результата: ";
@@ -107,7 +106,57 @@ int main() {
             }
             fout.close();
             fin.close();
+
+            break;
         }
+
+        case 2:
+        {
+            string input_file_name;
+            string output_file_name;
+            ifstream fin;
+            ofstream fout;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.clear();
+            cout << "Введите название файла с данными для дешифрования: ";
+            getline(cin, input_file_name);
+            fin.open(input_file_name, ios::in);
+            while (!fin.is_open())
+            {
+                cin.clear();
+                cout << "Файл не найден, попробуйте ещё раз: ";
+                getline(cin, input_file_name);
+                fin.open(input_file_name, ios::in);
+            }
+            if (fin.is_open()) {
+                string text;
+                string key;
+                getline(fin, text);
+                cout << "Введите ключ: ";
+                getline(cin, key);
+                key = GenerateKey(text, key);
+                string decrypted_text = Decrypt(text, key);
+
+                string output_file_name;
+                cout << "Введите название файла для сохранения результата: ";
+                cin.clear();
+                getline(cin, output_file_name);
+                while (output_file_name == "")
+                {
+                    cin.clear();
+                    cout << "Введите корректное имя файла: ";
+                    getline(cin, output_file_name);
+                }
+                ofstream fout;
+                fout.open(output_file_name, ios::out);
+                fout << decrypted_text;
+            }
+            fout.close();
+            fin.close();
+
+            break;
+        }
+
         }
 
     }
