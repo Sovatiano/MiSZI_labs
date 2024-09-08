@@ -8,7 +8,7 @@ using namespace std;
 void ShowMenu() {
     cout << "1. Шифровать данные" << "\n"
         << "2. Дешифровать данные" << "\n"
-        << "0. Exit" << "\n";
+        << "0. Выход" << "\n";
 }
 
 string GenerateKey(string text, string key) {
@@ -54,7 +54,7 @@ int main() {
         ShowMenu();
         int action;
         cout << "Введите номер интересующей опции: ";
-        if (!(cin >> action) or action <= 0 or action > 2) {
+        if (!(cin >> action) or action < 0 or action > 2) {
             cerr << "Неверный ввод, попробуйте ещё раз." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -156,7 +156,11 @@ int main() {
 
             break;
         }
-
+            
+        case 0: 
+        {
+            return 0;
+        }
         }
 
     }
