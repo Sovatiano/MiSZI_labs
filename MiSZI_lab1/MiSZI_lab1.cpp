@@ -1,6 +1,9 @@
 ﻿#include <iostream>
 #include <string>
 #include <fstream>
+#include <streambuf>
+#define NOMINMAX
+#include <Windows.h>
 
 using namespace std;
 
@@ -47,6 +50,8 @@ string Decrypt(string text, string key) {
 }
 
 int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
     setlocale(LC_CTYPE, "Russian");
     string text, key;
 
@@ -84,7 +89,9 @@ int main() {
             if (fin.is_open()) {
                 string text;
                 string key;
-                getline(fin, text);
+                ifstream t(input_file_name);
+                text.assign((std::istreambuf_iterator<char>(t)),
+                    std::istreambuf_iterator<char>());
                 cout << "Введите ключ: ";
                 getline(cin, key);
                 key = GenerateKey(text, key);
@@ -131,7 +138,9 @@ int main() {
             if (fin.is_open()) {
                 string text;
                 string key;
-                getline(fin, text);
+                ifstream t(input_file_name);
+                text.assign((std::istreambuf_iterator<char>(t)),
+                    std::istreambuf_iterator<char>());
                 cout << "Введите ключ: ";
                 getline(cin, key);
                 key = GenerateKey(text, key);
