@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
+#include <vector>
 #define NOMINMAX
 #include <Windows.h>
 
@@ -14,7 +15,7 @@ void ShowMenu() {
         << "0. Выход" << "\n";
 }
 
-string GenerateKey(string text, string key) {
+string GenerateKey(vector<char> text, string key) {
     int text_length = text.size();
     int key_length = key.size();
 
@@ -26,7 +27,7 @@ string GenerateKey(string text, string key) {
 }
 
 
-string Encrypt(string text, string key) {
+string Encrypt(vector<char> text, string key) {
     string encrypted_text;
     int text_length = text.size();
     
@@ -38,7 +39,7 @@ string Encrypt(string text, string key) {
 }
 
 
-string Decrypt(string text, string key) {
+string Decrypt(vector<char> text, string key) {
     string decrypted_text;
     int text_length = text.size();
 
@@ -53,7 +54,6 @@ int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     setlocale(LC_CTYPE, "Russian");
-    string text, key;
 
     while (true) {
         ShowMenu();
@@ -87,11 +87,9 @@ int main() {
                 fin.open(input_file_name, ios::in);
             }
             if (fin.is_open()) {
-                string text;
                 string key;
-                ifstream t(input_file_name);
-                text.assign((std::istreambuf_iterator<char>(t)),
-                    std::istreambuf_iterator<char>());
+                ifstream t(input_file_name, ios::binary);
+                vector<char> text((istreambuf_iterator<char>(t)), istreambuf_iterator<char>());
                 cout << "Введите ключ: ";
                 getline(cin, key);
                 key = GenerateKey(text, key);
@@ -136,11 +134,9 @@ int main() {
                 fin.open(input_file_name, ios::in);
             }
             if (fin.is_open()) {
-                string text;
                 string key;
-                ifstream t(input_file_name);
-                text.assign((std::istreambuf_iterator<char>(t)),
-                    std::istreambuf_iterator<char>());
+                ifstream t(input_file_name, ios::binary);
+                vector<char> text((istreambuf_iterator<char>(t)), istreambuf_iterator<char>());
                 cout << "Введите ключ: ";
                 getline(cin, key);
                 key = GenerateKey(text, key);

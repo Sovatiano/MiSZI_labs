@@ -1,0 +1,2 @@
+D:\cpp_projects\OOP_labs\MiSZI_lab2\x64\Debug\MiSZI_lab2.exe
+D:\cpp_projects\MiSZI_labs\MiSZI_lab2\x64\Debug\MiSZI_lab2.exe
