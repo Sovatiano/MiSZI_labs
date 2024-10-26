@@ -1,6 +1,6 @@
 ﻿  MiSZI_lab1.cpp
-C:\Users\savos\OneDrive\Рабочий стол\Университет\MSZI\MSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(18,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\savos\OneDrive\Рабочий стол\Университет\MSZI\MSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(19,20): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\savos\OneDrive\Рабочий стол\Университет\MSZI\MSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(31,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\savos\OneDrive\Рабочий стол\Университет\MSZI\MSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(43,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  MiSZI_lab1.vcxproj -> C:\Users\savos\OneDrive\Рабочий стол\Университет\MSZI\MSZI_labs\MiSZI_lab1\x64\Debug\MiSZI_lab1.exe
+D:\cpp_projects\MiSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(18,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\cpp_projects\MiSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(19,20): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\cpp_projects\MiSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(31,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\cpp_projects\MiSZI_labs\MiSZI_lab1\MiSZI_lab1.cpp(43,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  MiSZI_lab1.vcxproj -> D:\cpp_projects\MiSZI_labs\MiSZI_lab1\x64\Debug\MiSZI_lab1.exe
