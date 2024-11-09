@@ -85,13 +85,9 @@ map<char, double> calculateFreq(vector<char> text) {
 
 
 vector<vector<char>> splitText(int keyLength, vector<char> text) {
-    vector<vector<char>> splitedText;
-    for (int i = 0; i < keyLength; ++i) {
-        vector<char> segment;
-        for (size_t j = i; j < text.size(); j += keyLength) {
-            segment.push_back(text[j]);
-        }
-        splitedText.push_back(segment);
+    vector<vector<char>> splitedText(keyLength);
+    for (int i = 0; i < text.size(); ++i) {
+        splitedText[i % keyLength].push_back(text[i]);
     }
 
     return splitedText;
@@ -145,8 +141,7 @@ string Decrypt(vector<char> text, string key) {
 
 
 void ShowMenu() {
-    cout << "1. Шифровать данные" << "\n"
-        << "2. Дешифровать данные" << "\n"
+    cout  << "1. Дешифровать данные" << "\n"
         << "0. Выход" << "\n";
 }
 
@@ -171,30 +166,58 @@ int main() {
         {
         case 1:
         {
-            string input_file_name = "encrypted.txt";
-            ifstream in(input_file_name, ios::binary);
-            ifstream fin("base.txt", ios::binary);
-            vector<char> text((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
-            vector<char> base((istreambuf_iterator<char>(fin)), istreambuf_iterator<char>());
+            cout << "Введите через пробел диапазон предполагаемой длины пароля: ";
+            int left, right;
+            cin >> left; cin >> right;
+            string input_file_name;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.clear();
+            cout << "Введите название файла с данными для дешифрования: ";
+            getline(cin, input_file_name);
+            ifstream fin(input_file_name, ios::binary);
+            while (!fin.is_open())
+            {
+                cin.clear();
+                cout << "Файл не найден, попробуйте ещё раз: ";
+                getline(cin, input_file_name);
+                ifstream fin(input_file_name, ios::binary);
+            }
+            vector<char> text((istreambuf_iterator<char>(fin)), istreambuf_iterator<char>());
+            ifstream fin_base("base.txt", ios::binary);
+            vector<char> base((istreambuf_iterator<char>(fin_base)), istreambuf_iterator<char>());
 
-            int test_key_len = calculateKeyLength(1, 8, text);
+            fin.close();
+            fin_base.close();
 
-            cout << test_key_len << endl;
+            int test_key_len = calculateKeyLength(left, right, text);
+            cout << "Предполагаемая длина ключа:" << test_key_len << endl;
+
             map<char, double> reference = calculateFreq(base);
-            vector<vector<char>> splitedText = splitText(test_key_len ,text);
+            vector<vector<char>> splitedText = splitText(test_key_len, text);
             string key;
             for (int i = 0; i < splitedText.size(); i++) {
                 key += char(determineShift(splitedText[i], reference));
             }
-            cout << key << endl;
+
+            cout << "Предполагаемый пароль:" << key << endl;
             key = GenerateKey(text, key);
             string decrypted = Decrypt(text, key);
-            break;
-        }
 
-        case 2:
-        {
+            string output_file_name;
+            cout << "Введите название файла для сохранения результата: ";
+            cin.clear();
+            getline(cin, output_file_name);
+            while (output_file_name == "")
+            {
+                cin.clear();
+                cout << "Введите корректное имя файла: ";
+                getline(cin, output_file_name);
+            }
 
+            ofstream fout;
+            fout.open(output_file_name, ios::out);
+            fout << decrypted;
+            fout.close();
             break;
         }
 
