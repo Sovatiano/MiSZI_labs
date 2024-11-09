@@ -166,12 +166,22 @@ int main() {
         {
         case 1:
         {
-            cout << "Введите через пробел диапазон предполагаемой длины пароля: ";
-            int left, right;
-            cin >> left; cin >> right;
-            string input_file_name;
+            string base_file_name;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cin.clear();
+            cout << "Введите название файла с эталонным текстом: ";
+            getline(cin, base_file_name);
+            ifstream fin_base(base_file_name, ios::binary);
+            while (!fin_base.is_open())
+            {
+                cin.clear();
+                cout << "Файл не найден, попробуйте ещё раз: ";
+                getline(cin, base_file_name);
+                ifstream fin(base_file_name, ios::binary);
+            }
+
+            vector<char> base((istreambuf_iterator<char>(fin_base)), istreambuf_iterator<char>());
+            string input_file_name;
             cout << "Введите название файла с данными для дешифрования: ";
             getline(cin, input_file_name);
             ifstream fin(input_file_name, ios::binary);
@@ -183,11 +193,13 @@ int main() {
                 ifstream fin(input_file_name, ios::binary);
             }
             vector<char> text((istreambuf_iterator<char>(fin)), istreambuf_iterator<char>());
-            ifstream fin_base("base.txt", ios::binary);
-            vector<char> base((istreambuf_iterator<char>(fin_base)), istreambuf_iterator<char>());
 
             fin.close();
             fin_base.close();
+
+            cout << "Введите через пробел диапазон предполагаемой длины пароля: ";
+            int left, right;
+            cin >> left; cin >> right;
 
             int test_key_len = calculateKeyLength(left, right, text);
             cout << "Предполагаемая длина ключа:" << test_key_len << endl;
@@ -202,6 +214,9 @@ int main() {
             cout << "Предполагаемый пароль:" << key << endl;
             key = GenerateKey(text, key);
             string decrypted = Decrypt(text, key);
+
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.clear();
 
             string output_file_name;
             cout << "Введите название файла для сохранения результата: ";
