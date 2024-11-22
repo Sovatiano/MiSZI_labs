@@ -35,8 +35,8 @@ double calculateIndex(const vector<char> text) {
 
 int calculateKeyLength(int lower, int upper, vector<char> text) {
     int bestKeyLength = 0;
-    double minDiff = 1.0;
-    double baseInd = 0.0553;
+    double bestInd = 0;
+    
 
     for (int keyLength = 1; keyLength <= upper; ++keyLength) {
         double avgInd = 0.0;
@@ -50,9 +50,9 @@ int calculateKeyLength(int lower, int upper, vector<char> text) {
         }
         avgInd /= keyLength;
 
-        double diff = abs(avgInd - baseInd);
-        if (diff < minDiff) {
-            minDiff = diff;
+        //double diff = abs(avgInd - baseInd);
+        if (avgInd > bestInd) {
+            avgInd = bestInd;
             bestKeyLength = keyLength;
         }
     }
@@ -93,13 +93,30 @@ vector<vector<char>> splitText(int keyLength, vector<char> text) {
     return splitedText;
 }
 
+char findMax(map<char, double> freqMap) {
+    double maxFreq = 0.0;
+    char bestchar;
+    for (auto it = freqMap.begin(); it != freqMap.end(); it++) {
+        if (it->second > maxFreq) {
+            maxFreq = it->second;
+            bestchar = it->first;
+        }
+    }
+
+    return bestchar;
+}
+
 
 int determineShift(const vector<char> segment, map<char, double> referenceFreq) {
     int bestShift = 0;
     double bestCorrelation = 100;
     
     map<char, double> segmentFreq = calculateFreq(segment);
-    for (int shift = 0; shift < 256; ++shift) {
+
+    char most_often_segment = findMax(segmentFreq);
+    char most_often_base = findMax(referenceFreq);
+    bestShift = most_often_segment - most_often_base;
+    /*for (int shift = 0; shift < 256; ++shift) {
         double correlation = 0.0;
         for (int i = -128; i < 128; ++i) {
             correlation += abs(segmentFreq[i] - referenceFreq[(i - shift) % 256]);
@@ -108,7 +125,7 @@ int determineShift(const vector<char> segment, map<char, double> referenceFreq) 
             bestCorrelation = correlation;
             bestShift = shift;
         }
-    }
+    }*/
 
 
     return bestShift;

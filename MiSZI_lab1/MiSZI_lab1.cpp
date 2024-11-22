@@ -32,7 +32,7 @@ string Encrypt(vector<char> text, string key) {
     int text_length = text.size();
     
     for (int ind = 0; ind < text_length; ind++) {
-        encrypted_text.push_back((text[ind] + key[ind]) % 256);
+        encrypted_text.push_back((text[ind] + key[ind]));
     }
 
     return encrypted_text;
@@ -44,7 +44,7 @@ string Decrypt(vector<char> text, string key) {
     int text_length = text.size();
 
     for (int ind = 0; ind < text_length; ind++) {
-        decrypted_text.push_back((text[ind] - key[ind] + 256) % 256);
+        decrypted_text.push_back((text[ind] - key[ind]));
     }
 
     return decrypted_text;

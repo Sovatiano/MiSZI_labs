@@ -24,7 +24,6 @@ bool millerRabinTest(const big_int& num, int iterations) {
     big_int s = 0;
     big_int d = num - 1;
 
-    // Разложение (num-1) на 2^s * d
     while (d % 2 == 0) {
         d /= 2;
         s += 1;
@@ -34,9 +33,8 @@ bool millerRabinTest(const big_int& num, int iterations) {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<uint64_t> dist(2, UINT64_MAX);
 
-    // Запускаем тест Миллера-Рабина для нескольких итераций
     for (int i = 0; i < iterations; i++) {
-        big_int a = dist(gen) % (num - 4) + 2; // Выбираем a случайным образом из [2, num-2]
+        big_int a = dist(gen) % (num - 4) + 2;
         big_int x = pow_mod(a, d, num);
 
         if (x == 1 || x == num - 1) continue;
@@ -69,8 +67,6 @@ big_int generateRandomNumber(int bitLength) {
     std::mt19937 gen(seed);
     std::uniform_int_distribution<unsigned long long> dist(2, 1000);
 
-    // Генерация случайного числа в диапазоне [2^(bitLength-1), 2^bitLength - 1]
-
     big_int lowerBound = big_int(1) << (bitLength - 1);
     big_int upperBound = (big_int(1) << bitLength) - 1;
 
@@ -81,4 +77,17 @@ big_int generateRandomNumber(int bitLength) {
         result += 1;
     }
     return result;
+}
+
+
+big_int GenerateMod(big_int first_prime, big_int second_prime) {
+    return first_prime * second_prime;
+}
+
+big_int GeneratePublicKey(big_int first_prime, big_int second_prime, int bit_length) {
+    big_int euler_fun = (first_prime - 1) * (second_prime - 1);
+    big_int exp = generateRandomNumber(bit_length);
+    while (!(euler_fun % exp != 0)) {
+        big_int exp()
+    }
 }
