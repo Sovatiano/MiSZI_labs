@@ -1,58 +1,7 @@
 #include "Generation.h"
 
 
-big_int pow_mod(big_int base, big_int exponent, const big_int& modulus) {
-    big_int result = 1;
-    base %= modulus;
-
-    while (exponent > 0) {
-        if (exponent % 2 == 1) {
-            result = (result * base) % modulus;
-        }
-        base = (base * base) % modulus;
-        exponent /= 2;
-    }
-    return result;
-}
-
-
-bool millerRabinTest(const big_int& num, int iterations) {
-    if (num < 2) return false;
-    if (num == 2 || num == 3) return true;
-    if (num % 2 == 0) return false;
-
-    big_int s = 0;
-    big_int d = num - 1;
-
-    while (d % 2 == 0) {
-        d /= 2;
-        s += 1;
-    }
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<uint64_t> dist(2, UINT64_MAX);
-
-    for (int i = 0; i < iterations; i++) {
-        big_int a = dist(gen) % (num - 4) + 2;
-        big_int x = pow_mod(a, d, num);
-
-        if (x == 1 || x == num - 1) continue;
-
-        bool composite = true;
-        for (big_int r = 1; r < s; r++) {
-            x = pow_mod(x, 2, num);
-            if (x == num - 1) {
-                composite = false;
-                break;
-            }
-        }
-        if (composite) return false;
-    }
-    return true;
-}
-
-big_int generateRandomNumber(int bitLength) {
+big_int generateRandomNumber(int minBitLength, int maxBitLength) {
     std::random_device rd;
     std::mt19937::result_type seed = rd() ^ (
         (std::mt19937::result_type)
@@ -67,8 +16,8 @@ big_int generateRandomNumber(int bitLength) {
     std::mt19937 gen(seed);
     std::uniform_int_distribution<unsigned long long> dist(2, 1000);
 
-    big_int lowerBound = big_int(1) << (bitLength - 1);
-    big_int upperBound = (big_int(1) << bitLength) - 1;
+    big_int lowerBound = big_int(1) << (minBitLength - 1);
+    big_int upperBound = (big_int(1) << maxBitLength) - 1;
 
     big_int result = lowerBound + (upperBound - lowerBound) / dist(gen);
 
@@ -84,10 +33,28 @@ big_int GenerateMod(big_int first_prime, big_int second_prime) {
     return first_prime * second_prime;
 }
 
-big_int GeneratePublicKey(big_int first_prime, big_int second_prime, int bit_length) {
-    big_int euler_fun = (first_prime - 1) * (second_prime - 1);
-    big_int exp = generateRandomNumber(bit_length);
-    while (!(euler_fun % exp != 0)) {
-        big_int exp()
+
+big_int GenerateExponent(big_int euler_fun) {
+    int exp_size = 10;
+    big_int exp = generateRandomNumber(exp_size, exp_size * 1.5);
+    while (!(euler_fun % exp != 0) and !(euler_fun > exp)) {
+        big_int exp = generateRandomNumber(exp_size, exp_size * 1.5);
+        exp_size += 1;
     }
+
+    return exp;
+}
+
+
+big_int GenerateD(big_int exp, big_int euler_fun) {
+    big_int x, y;
+    big_int gcd = abs(EuñlidAlgorithm(exp, euler_fun, x, y));
+    if (gcd != 1) {
+        std::cout << "Ýêñïîíåíòà è Ôè íå âçàèìíî ïðîñòû" << std::endl;
+    }
+    if (x < 0) {
+        x += euler_fun;
+    }
+
+    return x;
 }
