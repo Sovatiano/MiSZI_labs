@@ -52,7 +52,7 @@ int calculateKeyLength(int lower, int upper, vector<char> text) {
 
         //double diff = abs(avgInd - baseInd);
         if (avgInd > bestInd) {
-            avgInd = bestInd;
+            bestInd = avgInd;
             bestKeyLength = keyLength;
         }
     }
